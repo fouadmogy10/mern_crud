@@ -2,6 +2,9 @@ const AsyncHandler=require("express-async-handler")
 const bcrypt=require("bcryptjs")
 const jwt=require("jsonwebtoken")
 const User=require("../models/users.model")
+// @desc register user
+// @route /api/user/
+//@access public
 const register =AsyncHandler(async(req,res,next)=>{
     const{name,email,password}=req.body
     if (!name||!email||!password) {
@@ -44,6 +47,10 @@ const register =AsyncHandler(async(req,res,next)=>{
         password:req.body.password
     })
 })
+
+// @desc login user
+// @route /api/user/login
+//@access public
 const login =AsyncHandler(async(req,res,next)=>{
     const{email,password}=req.body
     if (!email||!password) {
