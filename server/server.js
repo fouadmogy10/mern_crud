@@ -1,8 +1,10 @@
 const express =require("express");
+const cors = require('cors');
 const colors =require("colors")
 const { errorHandeler } = require("./middelware/errorHandler");
 const dotenv=require("dotenv").config();
 const app =express()
+app.use(cors());
 const connectDB =require("./config")
 const userRouter=require("./routes/users")
 const PORT = process.env.PORT
