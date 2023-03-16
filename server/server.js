@@ -7,6 +7,7 @@ const app =express()
 app.use(cors());
 const connectDB =require("./config")
 const userRouter=require("./routes/users")
+const TicketsRouter=require("./routes/tickets.route")
 const PORT = process.env.PORT
 //Connect to database
 
@@ -21,6 +22,7 @@ app.use(express.urlencoded({extended: false}));
 
 app.use("/api/users",userRouter)
 app.use("/api/users/login",userRouter)
+app.use("/api/tickets/",TicketsRouter)
 
 // error handler
 
