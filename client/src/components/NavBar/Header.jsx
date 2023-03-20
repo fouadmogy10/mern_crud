@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
 import { logout, reset } from "../../features/auth/authSlice";
 import Button from "react-bootstrap/esm/Button";
+import home from "./house-home-svgrepo-com.svg"
 function Header() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -32,10 +33,10 @@ function Header() {
       >
         <Container>
           <Link className="navbar-brand" to="/">
-            Navbar
+            <img src={home} width="50" height={50} alt="" /> Logo
           </Link>
           <Nav className="ms-auto">
-            {localStorage.getItem('user') ? (
+            {user ? (
               <Button onClick={onClick}   variant="outline-dark" >
                 <FaSignOutAlt /> Logout
               </Button>
