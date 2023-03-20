@@ -5,8 +5,8 @@ import Form from "react-bootstrap/Form";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { login, reset } from "../features/auth/authSlice";
-import RingLoader from "react-spinners/RingLoader";
 import { useNavigate } from "react-router-dom";
+import Spinner from "../components/Spinner";
 function SignUp() {
   const [formData, setformData] = useState({
     email: "",
@@ -29,7 +29,6 @@ function SignUp() {
     if (isSuccess || user) {
         toast.success("Login successfully")
         navigate("/")
-        dispatch(reset())
     }
     }, [user, isErorr, isSuccess, isLoading, message,navigate,dispatch ])
 
@@ -51,9 +50,7 @@ function SignUp() {
   if(isLoading) {
         
     return(
-<section className="spinner row align-items-center justify-content-center">
-    <RingLoader size={80} color="#36d7b7" />
-</section>
+<Spinner/>
 )}else{
   return (
     <>

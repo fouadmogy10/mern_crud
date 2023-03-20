@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
 import { register, reset } from "../features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
-import RingLoader from "react-spinners/RingLoader";
+import Spinner from "../components/Spinner";
 function SignUp() {
   const [formData, setformData] = useState({
     name: "",
@@ -61,9 +61,7 @@ if (isSuccess || user) {
     if(isLoading) {
         
         return(
-    <section className="spinner row align-items-center justify-content-center">
-        <RingLoader size={80} color="#36d7b7" />
-    </section>
+   <Spinner/>
   )}else{
      return(
         <>

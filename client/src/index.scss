@@ -217,19 +217,19 @@
 }
 
 .status-new {
-  background-color: green;
+  background-color: rgba(2, 112, 2, 0.662) !important;
   color: $SecondaryColor;
   border-radius: 10px;
 }
 
 .status-open {
-  background-color: steelblue;
+  background-color: steelblue !important;
   color: $SecondaryColor;
   border-radius: 10px;
 }
 
 .status-closed {
-  background-color: darkred;
+  background-color: darkred !important;
   color: $SecondaryColor;
   border-radius: 10px;
 }
