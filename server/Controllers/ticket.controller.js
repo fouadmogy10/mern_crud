@@ -3,7 +3,6 @@ const Ticket = require("../models/tecket.model")
 const AsyncHandler = require("express-async-handler")
 
 
-
 // @desc post ticket
 // @route /api/tickets/
 //@access private
