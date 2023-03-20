@@ -42,9 +42,7 @@ const getTicket = AsyncHandler(async (req, res, next) => {
     }
 
     const tickets = await Ticket.find({ user: req.user.id })
-    res.status(200).json({
-        message: tickets 
-    })
+    res.status(200).json(tickets)
 })
 
 // @desc get ticket
@@ -68,9 +66,9 @@ const getSingelTicket = AsyncHandler(async (req, res, next) => {
         res.status(401)
         throw new Error(' not authorized')
     }
-    res.status(200).json({
-        message: ticket 
-    })
+    res.status(200).json(
+        ticket 
+    )
 })
 
 // @desc put ticket

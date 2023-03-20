@@ -15,7 +15,7 @@ function Home() {
         <FaQuestionCircle/> Create new Ticket
       </Button>
     </Link>
-    <Link to={"/new-ticket"} >
+    <Link to={"/tickets"} >
     <Button variant="dark w-75  btn-block" >
         <FaTicketAlt/> View my Ticket
       </Button>
