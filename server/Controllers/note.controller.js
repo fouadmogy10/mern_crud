@@ -14,7 +14,6 @@ const AsyncHandler = require("express-async-handler")
 
 const getNote = AsyncHandler(async (req, res, next) => {
     const user = await User.findById(req.user.id)
-    console.log(user);
     if (!user) {
         res.status(401)
         throw new Error('user not found')

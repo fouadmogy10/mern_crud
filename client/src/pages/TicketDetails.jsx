@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect,useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import {
@@ -7,15 +7,38 @@ import {
   closeTickets,
 } from "../features/tickets/TicketSlice";
 import Spinner from "../components/Spinner";
-
+import { FaPlus } from "react-icons/fa";
 import { toast } from "react-toastify";
-import { Button, Col } from "react-bootstrap";
+import { Button, Col, FloatingLabel, Form } from "react-bootstrap";
+import { getNote,createNote } from "../features/notes/noteSlice";
+import Modal from "react-modal" 
+import NoteItem from "../components/NoteItems";
 
+const customStyle = {
+  content:{
+    maxWidth:'70%',
+    top:'50%',
+    left:"50%",
+    right:"auto",
+    bottom: "auto",
+    marginRight:"-50%",
+    transform:"translate(-50%,-50%)",
+    position:'relative'
+  }
+}
+
+Modal.setAppElement('#root')
 function TicketDetails() {
+
+const [isopenModal, setIsOpenModal] = useState(false)
+const [noteText, setnoteText] = useState("")
   const navigate = useNavigate();
 
   const { ticket, isErorr, isSuccess, isLoading, message } = useSelector(
     (state) => state.tickets
+  );
+  const { notes, isLoading:notesIsLoading ,message:noteMessage } = useSelector(
+    (state) => state.notes
   );
 
   const id = useParams().id;
@@ -33,6 +56,7 @@ function TicketDetails() {
       toast.error(message);
     }
     dispatch(getSingleTickets(id));
+    dispatch(getNote(id))
   }, [dispatch]);
 
 
@@ -41,6 +65,27 @@ function TicketDetails() {
     toast.success("ticket closed successfully");
     navigate("/tickets");
   };
+
+  // openModal
+  const openModal =()=>{
+    
+setIsOpenModal(true)
+  }
+  const closeModal =()=>{
+
+setIsOpenModal(false)
+  }
+
+  const OnSubmitModel =(e)=>{
+    e.preventDefault();
+    
+    dispatch(createNote({noteText,id}))
+    if (noteMessage) {
+      toast.error(message)
+    }
+    setnoteText("")
+    closeModal();
+  }
   if (isLoading) {
     return <Spinner />;
   }
@@ -67,15 +112,69 @@ function TicketDetails() {
         </Col>
       </div>
       <hr />
-      <div className="bg-light rounded-4 text-left py-5">
+      <div className="bg-light rounded-4 text-left py-2">
         <p> Description of issue</p>
         <p className="text-muted"> {ticket.description}</p>
+      </div>
+      <div className=" pt-5 pb-2 d-flex align-items-center justify-content-between">
+      <h4 className="left">Note</h4>
+        {
+          ticket.status !=="closed" &&(
+           <div className="left ">
+             <Button variant="outline-primary " onClick={openModal}>
+             <FaPlus/> Add Note
+        </Button>
+           </div>
+          )
+        }
+        <Modal isOpen={isopenModal}  onRequestClose={closeModal} style={customStyle} contentLabel="Add Note" >
+          <h2>Add Note</h2>
+          <button className="btn-close" onClick={closeModal}></button>
+
+          <Form onSubmit={OnSubmitModel} className="text-center">
+        
+      <FloatingLabel className="mb-3" controlId="floatingTextarea2" label="Description of the issue">
+        <Form.Control
+        onChange={(e)=>setnoteText(e.target.value)}
+          as="textarea"
+          value={noteText}
+          name="description"
+          placeholder="Leave a comment here"
+          style={{ height: '100px' }}
+        />
+      </FloatingLabel>
+
+        <Button variant="outline-dark w-50 mx-auto" type="submit">
+          Submit
+        </Button>
+      </Form>
+        </Modal>
+      </div>
+
+      <div className="row align-items-center justyfy-content-between">
+
+      {
+        notes !== "undefined" || notes !== "" ||notes !== [] ?
+        notes.map((note,index)=>{
+         return(
+          <>
+           <NoteItem notes={note} key={note._id} index={index+1}/>
+          </>
+         )
+        }):(
+         <tr aria-rowspan={5}>
+         
+         <td colSpan={5}>there is no notes to show</td>
+       </tr>
+      )}
+        
       </div>
       {ticket.status !== "closed" && (
         <Button variant="outline-danger my-5 w-75" onClick={closeTicket}>
           Close Ticket
         </Button>
       )}
+      
     </div>
   );
 }
